@@ -20,6 +20,30 @@ type Product struct {
 }
 
 func UpdateStock(product *Product, sales map[string]int) error {
-	// Seu código aqui
-	return errors.New("Not implemented yet")
+	// Verifica se o produto é nulo
+	if product == nil {
+		return errors.New("Product is nil")
+	}
+
+	// Verifica se o mapa de vendas é nulo
+	if sales == nil {
+		return errors.New("Sales map is nil")
+	}
+
+	// Obtém a quantidade do produto que foi vendido
+	quantitySold, ok := sales[product.Code]
+	if !ok {
+		return errors.New("Product code not found in sales map")
+	}
+
+	// Verifica se a quantidade do produto vendido é maior que a quantidade atual do produto em estoque
+	if product.Quantity < quantitySold {
+		return errors.New("Quantity of product that was sold is greater than the product's current stock quantity")
+	}
+
+	// Atualiza a quantidade de estoque do produto
+	product.Quantity -= quantitySold
+
+	// Retorna nulo se a atualização foi bem-sucedida
+	return nil
 }
